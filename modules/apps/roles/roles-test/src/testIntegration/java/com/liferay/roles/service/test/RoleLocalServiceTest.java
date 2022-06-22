@@ -498,7 +498,7 @@ public class RoleLocalServiceTest {
 
 		// See LPS-113146 for the magic number 2100
 
-		long[] groupIds = new long[2100];
+		long[] groupIds = new long[2000];
 
 		for (int i = 0; i < groupIds.length; i++) {
 			groupIds[i] = RandomTestUtil.nextLong();
