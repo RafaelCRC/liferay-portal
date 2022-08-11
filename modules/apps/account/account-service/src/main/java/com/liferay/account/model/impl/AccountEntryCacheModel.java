@@ -77,7 +77,7 @@ public class AccountEntryCacheModel
 
 	@Override
 	public String toString() {
-		StringBundler sb = new StringBundler(49);
+		StringBundler sb = new StringBundler(51);
 
 		sb.append("{mvccVersion=");
 		sb.append(mvccVersion);
@@ -97,6 +97,8 @@ public class AccountEntryCacheModel
 		sb.append(createDate);
 		sb.append(", modifiedDate=");
 		sb.append(modifiedDate);
+		sb.append(", active=");
+		sb.append(active);
 		sb.append(", defaultBillingAddressId=");
 		sb.append(defaultBillingAddressId);
 		sb.append(", defaultCPaymentMethodKey=");
@@ -177,6 +179,7 @@ public class AccountEntryCacheModel
 			accountEntryImpl.setModifiedDate(new Date(modifiedDate));
 		}
 
+		accountEntryImpl.setActive(active);
 		accountEntryImpl.setDefaultBillingAddressId(defaultBillingAddressId);
 
 		if (defaultCPaymentMethodKey == null) {
@@ -267,6 +270,8 @@ public class AccountEntryCacheModel
 		createDate = objectInput.readLong();
 		modifiedDate = objectInput.readLong();
 
+		active = objectInput.readBoolean();
+
 		defaultBillingAddressId = objectInput.readLong();
 		defaultCPaymentMethodKey = objectInput.readUTF();
 
@@ -323,6 +328,8 @@ public class AccountEntryCacheModel
 
 		objectOutput.writeLong(createDate);
 		objectOutput.writeLong(modifiedDate);
+
+		objectOutput.writeBoolean(active);
 
 		objectOutput.writeLong(defaultBillingAddressId);
 
@@ -404,6 +411,7 @@ public class AccountEntryCacheModel
 	public String userName;
 	public long createDate;
 	public long modifiedDate;
+	public boolean active;
 	public long defaultBillingAddressId;
 	public String defaultCPaymentMethodKey;
 	public long defaultDeliveryCTermEntryId;
