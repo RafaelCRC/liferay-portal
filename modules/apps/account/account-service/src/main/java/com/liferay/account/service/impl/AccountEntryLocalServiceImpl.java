@@ -143,7 +143,7 @@ public class AccountEntryLocalServiceImpl
 	public AccountEntry addAccountEntry(
 			long userId, long parentAccountEntryId, String name,
 			String description, String[] domains, String emailAddress,
-			byte[] logoBytes, String taxIdNumber, String type, int status,
+			byte[] logoBytes, String taxIdNumber, String type, boolean active,
 			ServiceContext serviceContext)
 		throws PortalException {
 
@@ -191,8 +191,8 @@ public class AccountEntryLocalServiceImpl
 
 		_validateType(type);
 
+		accountEntry.setActive(active);
 		accountEntry.setType(type);
-		accountEntry.setStatus(status);
 
 		accountEntry = accountEntryPersistence.update(accountEntry);
 
@@ -226,12 +226,30 @@ public class AccountEntryLocalServiceImpl
 		return accountEntry;
 	}
 
+	/**
+	 * @deprecated As of Cavanaugh (7.4.x), replaced by {@link #addAccountEntry(long, long, String, String, String[], String, byte[], String, String, boolean, ServiceContext)}
+	 */
+	@Deprecated
+	@Override
+	public AccountEntry addAccountEntry(
+			long userId, long parentAccountEntryId, String name,
+			String description, String[] domains, String emailAddress,
+			byte[] logoBytes, String taxIdNumber, String type, int status,
+			ServiceContext serviceContext)
+		throws PortalException {
+
+		return addAccountEntry(
+			userId, parentAccountEntryId, name, description, domains,
+			emailAddress, logoBytes, taxIdNumber, type, _isActive(status),
+			serviceContext);
+	}
+
 	@Override
 	public AccountEntry addOrUpdateAccountEntry(
 			String externalReferenceCode, long userId,
 			long parentAccountEntryId, String name, String description,
 			String[] domains, String emailAddress, byte[] logoBytes,
-			String taxIdNumber, String type, int status,
+			String taxIdNumber, String type, boolean active,
 			ServiceContext serviceContext)
 		throws PortalException {
 
@@ -244,16 +262,35 @@ public class AccountEntryLocalServiceImpl
 			return updateAccountEntry(
 				accountEntry.getAccountEntryId(), parentAccountEntryId, name,
 				description, false, domains, emailAddress, logoBytes,
-				taxIdNumber, status, serviceContext);
+				taxIdNumber, active, serviceContext);
 		}
 
 		accountEntry = addAccountEntry(
 			userId, parentAccountEntryId, name, description, domains,
-			emailAddress, logoBytes, taxIdNumber, type, status, serviceContext);
+			emailAddress, logoBytes, taxIdNumber, type, active, serviceContext);
 
 		accountEntry.setExternalReferenceCode(externalReferenceCode);
 
 		return accountEntryPersistence.update(accountEntry);
+	}
+
+	/**
+	 * @deprecated As of Cavanaugh (7.4.x), replaced by {@link #addOrUpdateAccountEntry(String, long, long, String, String, String[], String, byte[], String, String, boolean, ServiceContext)}
+	 */
+	@Deprecated
+	@Override
+	public AccountEntry addOrUpdateAccountEntry(
+			String externalReferenceCode, long userId,
+			long parentAccountEntryId, String name, String description,
+			String[] domains, String emailAddress, byte[] logoBytes,
+			String taxIdNumber, String type, int status,
+			ServiceContext serviceContext)
+		throws PortalException {
+
+		return addOrUpdateAccountEntry(
+			externalReferenceCode, userId, parentAccountEntryId, name,
+			description, domains, emailAddress, logoBytes, taxIdNumber, type,
+			_isActive(status), serviceContext);
 	}
 
 	@Override
@@ -406,16 +443,38 @@ public class AccountEntryLocalServiceImpl
 
 	@Override
 	public List<AccountEntry> getAccountEntries(
+		long companyId, boolean active, int start, int end,
+		OrderByComparator<AccountEntry> orderByComparator) {
+
+		return accountEntryPersistence.findByC_A(
+			companyId, active, start, end, orderByComparator);
+	}
+
+	/**
+	 * @deprecated As of Cavanaugh (7.4.x), replaced by {@link #getAccountEntries(long, boolean, int, int, OrderByComparator)}
+	 */
+	@Deprecated
+	@Override
+	public List<AccountEntry> getAccountEntries(
 		long companyId, int status, int start, int end,
 		OrderByComparator<AccountEntry> orderByComparator) {
 
-		return accountEntryPersistence.findByC_S(
-			companyId, status, start, end, orderByComparator);
+		return getAccountEntries(
+			companyId, _isActive(status), start, end, orderByComparator);
 	}
 
 	@Override
+	public int getAccountEntriesCount(long companyId, boolean active) {
+		return accountEntryPersistence.countByC_A(companyId, active);
+	}
+
+	/**
+	 * @deprecated As of Cavanaugh (7.4.x), replaced by {@link #getAccountEntriesCount(long, boolean)}
+	 */
+	@Deprecated
+	@Override
 	public int getAccountEntriesCount(long companyId, int status) {
-		return accountEntryPersistence.countByC_S(companyId, status);
+		return getAccountEntriesCount(companyId, _isActive(status));
 	}
 
 	@Override
@@ -580,7 +639,7 @@ public class AccountEntryLocalServiceImpl
 			long accountEntryId, long parentAccountEntryId, String name,
 			String description, boolean deleteLogo, String[] domains,
 			String emailAddress, byte[] logoBytes, String taxIdNumber,
-			int status, ServiceContext serviceContext)
+			boolean active, ServiceContext serviceContext)
 		throws PortalException {
 
 		AccountEntry accountEntry = accountEntryPersistence.fetchByPrimaryKey(
@@ -607,8 +666,8 @@ public class AccountEntryLocalServiceImpl
 			_userFileUploadsSettings.getImageMaxHeight(),
 			_userFileUploadsSettings.getImageMaxWidth());
 
+		accountEntry.setActive(active);
 		accountEntry.setTaxIdNumber(taxIdNumber);
-		accountEntry.setStatus(status);
 
 		if (serviceContext != null) {
 
@@ -622,6 +681,24 @@ public class AccountEntryLocalServiceImpl
 		}
 
 		return accountEntryPersistence.update(accountEntry);
+	}
+
+	/**
+	 * @deprecated As of Cavanaugh (7.4.x), replaced by {@link #updateAccountEntry(long, long, String, String, boolean, String[], String, byte[], String, boolean, ServiceContext)}
+	 */
+	@Deprecated
+	@Override
+	public AccountEntry updateAccountEntry(
+			long accountEntryId, long parentAccountEntryId, String name,
+			String description, boolean deleteLogo, String[] domains,
+			String emailAddress, byte[] logoBytes, String taxIdNumber,
+			int status, ServiceContext serviceContext)
+		throws PortalException {
+
+		return updateAccountEntry(
+			accountEntryId, parentAccountEntryId, name, description, deleteLogo,
+			domains, emailAddress, logoBytes, taxIdNumber, _isActive(status),
+			serviceContext);
 	}
 
 	@Indexable(type = IndexableType.REINDEX)
@@ -900,6 +977,10 @@ public class AccountEntryLocalServiceImpl
 					userId, parentAccountEntryId, keywords, types, status)));
 
 		return accountEntryIds;
+	}
+
+	private boolean _isActive(int status) {
+		return Objects.equals(WorkflowConstants.STATUS_APPROVED, status);
 	}
 
 	private void _performActions(
