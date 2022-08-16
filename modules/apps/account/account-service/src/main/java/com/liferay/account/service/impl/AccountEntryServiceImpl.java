@@ -231,8 +231,6 @@ public class AccountEntryServiceImpl extends AccountEntryServiceBaseImpl {
 			companyId, _isActive(status), start, end, orderByComparator);
 	}
 
-	// @Deprecated
-
 	@Override
 	public AccountEntry getAccountEntry(long accountEntryId)
 		throws PortalException {
