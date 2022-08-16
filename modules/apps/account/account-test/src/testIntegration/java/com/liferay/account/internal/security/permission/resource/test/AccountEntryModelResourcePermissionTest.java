@@ -198,8 +198,7 @@ public class AccountEntryModelResourcePermissionTest {
 			user.getUserId(), AccountConstants.PARENT_ACCOUNT_ENTRY_ID_DEFAULT,
 			RandomTestUtil.randomString(), RandomTestUtil.randomString(), null,
 			null, null, null, AccountConstants.ACCOUNT_ENTRY_TYPE_BUSINESS,
-			WorkflowConstants.STATUS_APPROVED,
-			ServiceContextTestUtil.getServiceContext());
+			true, ServiceContextTestUtil.getServiceContext());
 
 		_assertContains(user, accountEntry, _ACTION_IDS);
 	}

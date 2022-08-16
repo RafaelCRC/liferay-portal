@@ -192,7 +192,7 @@ public class RoleModelListenerTest {
 	@Test(expected = ModelListenerException.class)
 	public void testDeleteRole() throws Exception {
 		AccountEntry accountEntry = AccountEntryTestUtil.addAccountEntry(
-			_accountEntryLocalService, WorkflowConstants.STATUS_APPROVED);
+			_accountEntryLocalService);
 
 		AccountRole accountRole = _accountRoleLocalService.addAccountRole(
 			TestPropsValues.getUserId(), accountEntry.getAccountEntryId(),

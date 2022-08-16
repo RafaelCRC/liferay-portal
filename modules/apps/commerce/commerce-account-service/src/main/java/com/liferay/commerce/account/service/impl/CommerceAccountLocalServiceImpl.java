@@ -130,7 +130,7 @@ public class CommerceAccountLocalServiceImpl
 		AccountEntry accountEntry = _accountEntryLocalService.addAccountEntry(
 			user.getUserId(), parentCommerceAccountId, name, null, null, email,
 			null, taxId, CommerceAccountImpl.toAccountEntryType(type),
-			CommerceAccountImpl.toAccountEntryStatus(active), serviceContext);
+			active, serviceContext);
 
 		if (externalReferenceCode != null) {
 			accountEntry.setExternalReferenceCode(externalReferenceCode);

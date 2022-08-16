@@ -303,8 +303,7 @@ public class AccountEntryServiceWhenSearchingAccountEntriesTest {
 			AccountConstants.ACCOUNT_ENTRY_ID_DEFAULT,
 			RandomTestUtil.randomString(), RandomTestUtil.randomString(), null,
 			null, null, null, AccountConstants.ACCOUNT_ENTRY_TYPE_BUSINESS,
-			WorkflowConstants.STATUS_APPROVED,
-			ServiceContextTestUtil.getServiceContext());
+			true, ServiceContextTestUtil.getServiceContext());
 
 		_accountEntryOrganizationRelLocalService.addAccountEntryOrganizationRel(
 			accountEntry.getAccountEntryId(), organization.getOrganizationId());
