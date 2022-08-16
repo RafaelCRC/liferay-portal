@@ -884,7 +884,7 @@ public class ObjectEntryLocalServiceTest {
 			user.getUserId(), AccountConstants.PARENT_ACCOUNT_ENTRY_ID_DEFAULT,
 			"account", null, null, null, null, null,
 			AccountConstants.ACCOUNT_ENTRY_TYPE_BUSINESS,
-			WorkflowConstants.STATUS_APPROVED,
+			true,
 			ServiceContextTestUtil.getServiceContext());
 
 		AccountEntryUserRel accountEntryUserRel1 =
@@ -938,7 +938,7 @@ public class ObjectEntryLocalServiceTest {
 			user.getUserId(), AccountConstants.PARENT_ACCOUNT_ENTRY_ID_DEFAULT,
 			"account", null, null, null, null, null,
 			AccountConstants.ACCOUNT_ENTRY_TYPE_BUSINESS,
-			WorkflowConstants.STATUS_APPROVED,
+			true,
 			ServiceContextTestUtil.getServiceContext());
 
 		AccountEntryUserRel accountEntryUserRel2 =

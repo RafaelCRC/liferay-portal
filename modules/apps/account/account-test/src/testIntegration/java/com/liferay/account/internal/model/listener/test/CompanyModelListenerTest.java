@@ -60,7 +60,7 @@ public class CompanyModelListenerTest {
 			_defaultUser.getUserId(), 0L, RandomTestUtil.randomString(50),
 			RandomTestUtil.randomString(50), null, null, null, null,
 			AccountConstants.ACCOUNT_ENTRY_TYPE_BUSINESS,
-			WorkflowConstants.STATUS_APPROVED,
+			true,
 			ServiceContextTestUtil.getServiceContext());
 	}
 

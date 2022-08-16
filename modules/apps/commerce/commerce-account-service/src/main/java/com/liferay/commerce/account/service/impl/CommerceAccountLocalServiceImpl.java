@@ -574,8 +574,8 @@ public class CommerceAccountLocalServiceImpl
 			accountEntry.getAccountEntryId(),
 			accountEntry.getParentAccountEntryId(), name,
 			accountEntry.getDescription(), !logo,
-			accountEntry.getDomainsArray(), email, logoBytes, taxId,
-			CommerceAccountImpl.toAccountEntryStatus(active), serviceContext);
+			accountEntry.getDomainsArray(), email, logoBytes, taxId, active,
+			serviceContext);
 
 		accountEntry.setDefaultBillingAddressId(defaultBillingAddressId);
 		accountEntry.setDefaultShippingAddressId(defaultShippingAddressId);

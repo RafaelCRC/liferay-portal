@@ -928,8 +928,7 @@ public class AccountEntryLocalServiceTest {
 		List<AccountEntry> expectedAccountEntries =
 			_accountEntryLocalService.getAccountEntries(
 				TestPropsValues.getCompanyId(),
-				WorkflowConstants.STATUS_APPROVED, QueryUtil.ALL_POS,
-				QueryUtil.ALL_POS, null);
+				true, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
 
 		BaseModelSearchResult<AccountEntry> baseModelSearchResult =
 			_keywordSearch(null);

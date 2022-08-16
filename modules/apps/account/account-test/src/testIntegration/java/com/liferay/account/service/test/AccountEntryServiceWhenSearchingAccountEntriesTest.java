@@ -342,7 +342,7 @@ public class AccountEntryServiceWhenSearchingAccountEntriesTest {
 
 	private List<AccountEntry> _getAllAccountEntries() throws Exception {
 		return _accountEntryLocalService.getAccountEntries(
-			TestPropsValues.getCompanyId(), WorkflowConstants.STATUS_APPROVED,
+			TestPropsValues.getCompanyId(), true,
 			QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
 	}
 
