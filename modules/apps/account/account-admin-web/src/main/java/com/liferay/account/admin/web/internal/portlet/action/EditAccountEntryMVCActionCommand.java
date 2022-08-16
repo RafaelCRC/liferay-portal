@@ -136,6 +136,7 @@ public class EditAccountEntryMVCActionCommand
 			accountEntryId);
 
 		String name = ParamUtil.getString(actionRequest, "name");
+		boolean active = ParamUtil.getBoolean(actionRequest, "active");
 		String description = ParamUtil.getString(actionRequest, "description");
 		boolean deleteLogo = ParamUtil.getBoolean(actionRequest, "deleteLogo");
 		String[] domains = ParamUtil.getStringValues(actionRequest, "domains");
@@ -147,7 +148,7 @@ public class EditAccountEntryMVCActionCommand
 			accountEntryId, accountEntry.getParentAccountEntryId(), name,
 			description, deleteLogo, domains, emailAddress,
 			_getLogoBytes(actionRequest), taxIdNumber,
-			_getStatus(actionRequest),
+			active,
 			ServiceContextFactory.getInstance(
 				AccountEntry.class.getName(), actionRequest));
 
@@ -181,6 +182,7 @@ public class EditAccountEntryMVCActionCommand
 			WebKeys.THEME_DISPLAY);
 
 		String name = ParamUtil.getString(actionRequest, "name");
+		boolean active = ParamUtil.getBoolean(actionRequest, "active");
 		String description = ParamUtil.getString(actionRequest, "description");
 		String[] domains = new String[0];
 		String emailAddress = ParamUtil.getString(
@@ -201,7 +203,7 @@ public class EditAccountEntryMVCActionCommand
 			themeDisplay.getUserId(), AccountConstants.ACCOUNT_ENTRY_ID_DEFAULT,
 			name, description, domains, emailAddress,
 			_getLogoBytes(actionRequest), taxIdNumber, type,
-			_getStatus(actionRequest),
+			active,
 			ServiceContextFactory.getInstance(
 				AccountEntry.class.getName(), actionRequest));
 
@@ -220,16 +222,6 @@ public class EditAccountEntryMVCActionCommand
 		FileEntry fileEntry = _dlAppLocalService.getFileEntry(fileEntryId);
 
 		return FileUtil.getBytes(fileEntry.getContentStream());
-	}
-
-	private int _getStatus(ActionRequest actionRequest) {
-		boolean active = ParamUtil.getBoolean(actionRequest, "active");
-
-		if (active) {
-			return WorkflowConstants.STATUS_APPROVED;
-		}
-
-		return WorkflowConstants.STATUS_INACTIVE;
 	}
 
 	private static final Log _log = LogFactoryUtil.getLog(
