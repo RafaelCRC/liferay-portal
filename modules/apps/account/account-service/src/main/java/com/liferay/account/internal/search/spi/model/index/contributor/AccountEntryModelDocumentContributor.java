@@ -15,6 +15,7 @@
 package com.liferay.account.internal.search.spi.model.index.contributor;
 
 import com.liferay.account.constants.AccountConstants;
+import com.liferay.account.constants.AccountEntryActiveStatus;
 import com.liferay.account.model.AccountEntry;
 import com.liferay.account.model.AccountEntryOrganizationRelModel;
 import com.liferay.account.model.AccountGroupRel;
@@ -49,6 +50,8 @@ public class AccountEntryModelDocumentContributor
 	@Override
 	public void contribute(Document document, AccountEntry accountEntry) {
 		document.addText(Field.DESCRIPTION, accountEntry.getDescription());
+		document.addKeyword(
+			AccountEntryActiveStatus.FIELD_NAME, accountEntry.getActive());
 		document.addText(Field.NAME, accountEntry.getName());
 		document.addKeyword(Field.STATUS, accountEntry.getStatus());
 

@@ -15,7 +15,7 @@
 package com.liferay.account.service.impl;
 
 import com.liferay.account.constants.AccountConstants;
-import com.liferay.account.constants.AccountEntryActiveSearchParam;
+import com.liferay.account.constants.AccountEntryActiveStatus;
 import com.liferay.account.exception.AccountEntryDomainsException;
 import com.liferay.account.exception.AccountEntryEmailAddressException;
 import com.liferay.account.exception.AccountEntryNameException;
@@ -1062,10 +1062,12 @@ public class AccountEntryLocalServiceImpl
 
 		searchContext.setAttribute(Field.STATUS, status);
 
-		int activeStatus = GetterUtil.getInteger(
-			params.get("activeStatus"), AccountEntryActiveSearchParam.ACTIVE.getValue());
+		AccountEntryActiveStatus accountEntryActiveStatus =
+			(AccountEntryActiveStatus)GetterUtil.getObject(
+				params.get(AccountEntryActiveStatus.PARAM_NAME),
+				AccountEntryActiveStatus.ACTIVE);
 
-		searchContext.setAttribute("active", status);
+		searchContext.setAttribute("activeStatus", accountEntryActiveStatus);
 
 		String[] types = (String[])params.get("types");
 

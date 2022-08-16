@@ -15,7 +15,7 @@
 package com.liferay.account.internal.search.spi.model.query.contributor;
 
 import com.liferay.account.constants.AccountConstants;
-import com.liferay.account.constants.AccountEntryActiveSearchParam;
+import com.liferay.account.constants.AccountEntryActiveStatus;
 import com.liferay.portal.kernel.search.BooleanClauseOccur;
 import com.liferay.portal.kernel.search.Field;
 import com.liferay.portal.kernel.search.SearchContext;
@@ -86,6 +86,23 @@ public class AccountEntryModelPreFilterContributor
 		}
 	}
 
+	private void _filterByActiveStatus(
+		BooleanFilter booleanFilter, SearchContext searchContext) {
+
+		AccountEntryActiveStatus accountEntryActiveStatus =
+			(AccountEntryActiveStatus)GetterUtil.getObject(
+				searchContext.getAttribute(AccountEntryActiveStatus.PARAM_NAME),
+				AccountEntryActiveStatus.ACTIVE);
+
+		if (accountEntryActiveStatus == AccountEntryActiveStatus.ALL) {
+			return;
+		}
+
+		booleanFilter.addRequiredTerm(
+			AccountEntryActiveStatus.FIELD_NAME,
+			accountEntryActiveStatus.getActive());
+	}
+
 	private void _filterByAllowNewUserMembership(
 		BooleanFilter booleanFilter, SearchContext searchContext) {
 
@@ -146,20 +163,6 @@ public class AccountEntryModelPreFilterContributor
 		int status = GetterUtil.getInteger(
 			searchContext.getAttribute(Field.STATUS),
 			WorkflowConstants.STATUS_APPROVED);
-
-		if (status == WorkflowConstants.STATUS_ANY) {
-			return;
-		}
-
-		booleanFilter.addRequiredTerm(Field.STATUS, String.valueOf(status));
-	}
-
-	private void _filterByActiveStatus(
-		BooleanFilter booleanFilter, SearchContext searchContext) {
-
-		int status = GetterUtil.getInteger(
-			searchContext.getAttribute("activeStatus"),
-			AccountEntryActiveSearchParam.ACTIVE.getValue());
 
 		if (status == WorkflowConstants.STATUS_ANY) {
 			return;
