@@ -623,9 +623,13 @@
 		<field name="createDate" type="Date" />
 		<field name="modifiedDate" type="Date" />
 		<field name="a2" type="String">
+			<hint name="max-length">2</hint>
+			<hint name="min-length">2</hint>
 			<validator name="required" />
 		</field>
 		<field name="a3" type="String">
+			<hint name="max-length">3</hint>
+			<hint name="min-length">3</hint>
 			<validator name="required" />
 		</field>
 		<field name="active" type="boolean" />
