@@ -51,7 +51,7 @@ Region region = (Region)row.getObject();
 					<portlet:param name="<%= Constants.CMD %>" value="<%= Constants.DEACTIVATE %>" />
 					<portlet:param name="redirect" value="<%= currentURL %>" />
 					<portlet:param name="navigation" value="<%= navigation %>" />
-					<portlet:param name="regionId" value="<%= String.valueOf(region.getRegionId()) %>" />
+					<portlet:param name="regionIds" value="<%= String.valueOf(region.getRegionId()) %>" />
 				</portlet:actionURL>
 
 				<liferay-ui:icon-deactivate
@@ -63,7 +63,7 @@ Region region = (Region)row.getObject();
 					<portlet:param name="<%= Constants.CMD %>" value="<%= Constants.RESTORE %>" />
 					<portlet:param name="redirect" value="<%= currentURL %>" />
 					<portlet:param name="navigation" value="<%= navigation %>" />
-					<portlet:param name="regionId" value="<%= String.valueOf(region.getRegionId()) %>" />
+					<portlet:param name="regionIds" value="<%= String.valueOf(region.getRegionId()) %>" />
 				</portlet:actionURL>
 
 				<liferay-ui:icon
