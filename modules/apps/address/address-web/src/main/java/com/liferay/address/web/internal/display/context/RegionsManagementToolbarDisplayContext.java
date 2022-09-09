@@ -35,6 +35,7 @@ import com.liferay.portal.kernel.portlet.PortletURLUtil;
 import com.liferay.portal.kernel.security.permission.ActionKeys;
 import com.liferay.portal.kernel.service.permission.PortalPermissionUtil;
 import com.liferay.portal.kernel.theme.ThemeDisplay;
+import com.liferay.portal.kernel.util.Constants;
 import com.liferay.portal.kernel.util.ParamUtil;
 import com.liferay.portal.kernel.util.WebKeys;
 
@@ -65,24 +66,82 @@ public class RegionsManagementToolbarDisplayContext
 	@Override
 	public List<DropdownItem> getActionDropdownItems() {
 		return DropdownItemList.of(
-			() -> DropdownItemBuilder.putData(
-				"action", "deleteRegions"
-			).putData(
-				"deleteRegionsURL",
-				PortletURLBuilder.createActionURL(
-					liferayPortletResponse
-				).setActionName(
-					"/address/delete_region"
-				).setNavigation(
-					getNavigation()
-				).buildString()
-			).setIcon(
-				"times-circle"
-			).setLabel(
-				LanguageUtil.get(httpServletRequest, "delete")
-			).setQuickAction(
-				true
-			).build());
+			() -> {
+				if (Objects.equals(getNavigation(), "inactive")) {
+					return null;
+				}
+
+				return DropdownItemBuilder.putData(
+					"action", "deactivateRegions"
+				).putData(
+					"deactivateRegionsURL",
+					PortletURLBuilder.createActionURL(
+						liferayPortletResponse
+					).setActionName(
+						"/address/update_region_status"
+					).setCMD(
+						Constants.DEACTIVATE
+					).setNavigation(
+						getNavigation()
+					).buildString()
+				).setIcon(
+					"hidden"
+				).setLabel(
+					LanguageUtil.get(httpServletRequest, "deactivate")
+				).setQuickAction(
+					true
+				).build();
+			},
+			() -> {
+				if (Objects.equals(getNavigation(), "active")) {
+					return null;
+				}
+
+				return DropdownItemBuilder.putData(
+					"action", "activateRegions"
+				).putData(
+					"activateRegionsURL",
+					PortletURLBuilder.createActionURL(
+						liferayPortletResponse
+					).setActionName(
+						"/address/update_region_status"
+					).setCMD(
+						Constants.RESTORE
+					).setNavigation(
+						getNavigation()
+					).buildString()
+				).setIcon(
+					"undo"
+				).setLabel(
+					LanguageUtil.get(httpServletRequest, "activate")
+				).setQuickAction(
+					true
+				).build();
+			},
+			() -> {
+				if (Objects.equals(getNavigation(), "active")) {
+					return null;
+				}
+
+				return DropdownItemBuilder.putData(
+					"action", "deleteRegions"
+				).putData(
+					"deleteRegionsURL",
+					PortletURLBuilder.createActionURL(
+						liferayPortletResponse
+					).setActionName(
+						"/address/delete_region"
+					).setNavigation(
+						getNavigation()
+					).buildString()
+				).setIcon(
+					"times-circle"
+				).setLabel(
+					LanguageUtil.get(httpServletRequest, "delete")
+				).setQuickAction(
+					true
+				).build();
+			});
 	}
 
 	@Override
