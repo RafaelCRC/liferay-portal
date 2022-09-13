@@ -40,7 +40,6 @@ SearchContainer<Region> regionSearchContainer = RegionSearchContainerFactory.cre
 			>
 				<portlet:renderURL var="rowURL">
 					<portlet:param name="mvcRenderCommandName" value="/address/edit_region" />
-					<portlet:param name="redirect" value="<%= currentURL %>" />
 					<portlet:param name="backURL" value="<%= currentURL %>" />
 					<portlet:param name="countryId" value="<%= String.valueOf(region.getCountryId()) %>" />
 					<portlet:param name="regionId" value="<%= String.valueOf(region.getRegionId()) %>" />

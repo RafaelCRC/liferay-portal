@@ -34,7 +34,6 @@ Region region = (Region)row.getObject();
 	<c:if test="<%= PortalPermissionUtil.contains(permissionChecker, ActionKeys.MANAGE_COUNTRIES) %>">
 		<portlet:renderURL var="editURL">
 			<portlet:param name="mvcRenderCommandName" value="/address/edit_region" />
-			<portlet:param name="redirect" value="<%= currentURL %>" />
 			<portlet:param name="backURL" value="<%= currentURL %>" />
 			<portlet:param name="countryId" value="<%= String.valueOf(region.getCountryId()) %>" />
 			<portlet:param name="regionId" value="<%= String.valueOf(region.getRegionId()) %>" />
