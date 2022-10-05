@@ -969,6 +969,12 @@ public class UserGroupLocalServiceImpl extends UserGroupLocalServiceBaseImpl {
 		searchContext.setCompanyId(companyId);
 		searchContext.setEnd(end);
 
+		long[] userIds = (long[])params.get("userIds");
+
+		if (ArrayUtil.isNotEmpty(userIds)) {
+			searchContext.setAttribute("userIds", userIds);
+		}
+
 		if (params != null) {
 			String keywords = (String)params.remove("keywords");
 
