@@ -269,12 +269,57 @@ public class UserGroupLocalServiceImpl extends UserGroupLocalServiceBaseImpl {
 
 		// Indexer
 
-		Indexer<UserGroup> indexer = IndexerRegistryUtil.nullSafeGetIndexer(
-			UserGroup.class);
-
-		indexer.reindex(userGroup);
+		reindexUserGroups(userGroup);
 
 		return userGroup;
+	}
+
+	@Override
+	public void addUserUserGroup(long userId, long userGroupId) {
+		super.addUserUserGroup(userId, userGroupId);
+
+		try {
+			reindexUserGroups(userGroupId);
+		}
+		catch (PortalException portalException) {
+			throw new SystemException(portalException);
+		}
+	}
+
+	@Override
+	public void addUserUserGroup(long userId, UserGroup userGroup) {
+		super.addUserUserGroup(userId, userGroup);
+
+		try {
+			reindexUserGroups(userGroup);
+		}
+		catch (PortalException portalException) {
+			throw new SystemException(portalException);
+		}
+	}
+
+	@Override
+	public void addUserUserGroups(long userId, List<UserGroup> userGroups) {
+		super.addUserUserGroups(userId, userGroups);
+
+		try {
+			reindexUserGroups(userGroups);
+		}
+		catch (PortalException portalException) {
+			throw new SystemException(portalException);
+		}
+	}
+
+	@Override
+	public void addUserUserGroups(long userId, long[] userGroupIds) {
+		super.addUserUserGroups(userId, userGroupIds);
+
+		try {
+			reindexUserGroups(userGroupIds);
+		}
+		catch (PortalException portalException) {
+			throw new SystemException(portalException);
+		}
 	}
 
 	/**
@@ -942,10 +987,7 @@ public class UserGroupLocalServiceImpl extends UserGroupLocalServiceBaseImpl {
 
 		// Indexer
 
-		Indexer<UserGroup> indexer = IndexerRegistryUtil.nullSafeGetIndexer(
-			UserGroup.class);
-
-		indexer.reindex(userGroup);
+		reindexUserGroups(userGroupId);
 
 		return userGroup;
 	}
@@ -1187,6 +1229,39 @@ public class UserGroupLocalServiceImpl extends UserGroupLocalServiceBaseImpl {
 		throws PortalException {
 
 		_reindexerBridge.reindex(companyId, User.class.getName(), userIds);
+	}
+
+	protected void reindexUserGroups(List<UserGroup> userGroups)
+		throws PortalException {
+
+		for (UserGroup userGroup : userGroups) {
+			reindexUserGroups(userGroup);
+		}
+	}
+
+	protected void reindexUserGroups(long userGroupId) throws PortalException {
+		reindexUserGroups(getUserGroup(userGroupId));
+	}
+
+	protected void reindexUserGroups(long[] userGroupIds)
+		throws PortalException {
+
+		List<UserGroup> userGroupList = new ArrayList<>(userGroupIds.length);
+
+		for (long userGroupId : userGroupIds) {
+			userGroupList.add(getUserGroup(userGroupId));
+		}
+
+		reindexUserGroups(userGroupList);
+	}
+
+	protected void reindexUserGroups(UserGroup userGroup)
+		throws PortalException {
+
+		Indexer<UserGroup> indexer = IndexerRegistryUtil.nullSafeGetIndexer(
+			UserGroup.class);
+
+		indexer.reindex(userGroup);
 	}
 
 	protected void reindexUsers(List<UserGroup> userGroups)
