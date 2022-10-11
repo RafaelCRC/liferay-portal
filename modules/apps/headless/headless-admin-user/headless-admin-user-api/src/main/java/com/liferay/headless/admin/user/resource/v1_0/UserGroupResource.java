@@ -59,6 +59,9 @@ public interface UserGroupResource {
 		return FactoryHolder.factory.create();
 	}
 
+	public Page<UserGroup> getUserUserGroups(Long userAccountId)
+		throws Exception;
+
 	public Page<UserGroup> getUserGroupsPage(
 			String search, Filter filter, Pagination pagination, Sort[] sorts)
 		throws Exception;
